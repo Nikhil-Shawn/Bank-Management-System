@@ -4,6 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class FastCash extends JFrame implements ActionListener {
 
@@ -73,13 +78,46 @@ public class FastCash extends JFrame implements ActionListener {
 
     public void actionPerformed (ActionEvent ae){
         if(ae.getSource()==back){
-            System.exit(0);
-        } else if (ae.getSource()== withdraw10) {
             setVisible(false);
-            new Deposit(pinNumber).setVisible(true);
-        } else if (ae.getSource()==withdraw20) {
-            setVisible(false);
-            new Withdraw(pinNumber).setVisible(true);
+            new Transaction(pinNumber).setVisible(true);
+        } else {
+           String amount = ((JButton)ae.getSource()).getText().substring(2);
+           Connection conn = new Connection();
+           try{
+               ResultSet account = conn.s.executeQuery("select * from bank where pin_number ='"+pinNumber+"'");
+               int balance = 0;
+               while (account.next()){
+                   if(account.getString("type").equals("Deposit")){
+                       balance += Integer.parseInt(account.getString("amount"));
+                   } else {
+                       balance -= Integer.parseInt(account.getString("amount"));
+                   }
+               }
+
+               if(ae.getSource() != back && balance < Integer.parseInt(amount)){
+                   JOptionPane.showMessageDialog(null,"Insufficient Balance");
+                   return;
+               }
+
+               Date currentDate = new Date();
+               SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+               String formattedDate = simpleDateFormat.format(currentDate);
+               Timestamp date = Timestamp.valueOf(formattedDate);
+
+               String query = "INSERT INTO bank (pin_number, date, type, amount) VALUES (?, ?, ?, ?)";
+               PreparedStatement pstmt = conn.s.getConnection().prepareStatement(query);
+               pstmt.setString(1, pinNumber);
+               pstmt.setTimestamp(2, date);
+               pstmt.setString(3, "Withdraw");
+               pstmt.setInt(4, Integer.parseInt(amount));
+               pstmt.executeUpdate();
+               JOptionPane.showMessageDialog(null,"€ "+amount+" Debited Successfully");
+
+               setVisible(false);
+               new Transaction(pinNumber).setVisible(true);
+           }catch (Exception e){
+               System.out.println(e);
+           }
         }
     }
 
