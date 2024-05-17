@@ -4,19 +4,20 @@
 
 This Bank Management System is designed to facilitate customer registration and basic account management operations within a banking organization. It includes modules for customer registration and CRUD operations on account balances. The system aims to simplify banking processes, improve customer experience, and provide essential account management functionalities.
 
-**Features - (In development)**
+## Features - (In development)
+
 Customer Registration: Allow customers to register by providing personal information and contact details.
 Account Management: Enable CRUD operations on account balances, including creating new accounts, viewing account details, updating account balances, and deleting accounts.
 Reporting: Generate basic reports, such as account summaries and transaction histories.
 Installation:
 
-**High Lvl Instructions**
+## High Lvl Instructions
 git clone https://github.com/nikhil-shawn/Bank-Management-System.git
 Install dependencies
 Configure the database 
 Run the application
 
-**Usage**:
+## Usage:
 Access the Bank Management System through the provided URL.
 Register as a new customer by providing personal information, contact details, type of account, type of services needed, etc.
 Perform CRUD operations on account balances, including creating new accounts, viewing account details, updating account balances, and deleting accounts.
