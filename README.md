@@ -1,6 +1,6 @@
-**Bank-management-system**
+# Bank-Management-System
 
-**Overview**
+## Overview
 
 This Bank Management System is designed to facilitate customer registration and basic account management operations within a banking organization. It includes modules for customer registration and CRUD operations on account balances. The system aims to simplify banking processes, improve customer experience, and provide essential account management functionalities.
 
