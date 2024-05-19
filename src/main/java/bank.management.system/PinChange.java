@@ -2,8 +2,13 @@ package bank.management.system;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class PinChange extends JFrame {
+public class PinChange extends JFrame implements ActionListener {
+
+    JTextField pin, repin;
+    JButton change, back;
 
     PinChange(String pinchange){
         setLayout(null);
@@ -27,17 +32,40 @@ public class PinChange extends JFrame {
         newPin.setBounds(165, 320, 180,25);
         mainImage.add(newPin);
 
+        pin = new JTextField();
+        pin.setFont(new Font("Raleway", Font.BOLD, 25));
+        pin.setBounds(330, 320, 180, 25);
+        mainImage.add(pin);
+
         JLabel renewPin = new JLabel("RE-ENTER NEW PIN");
         renewPin.setForeground(Color.white);
         renewPin.setFont(new Font("System", Font.BOLD, 16));
         renewPin.setBounds(165, 360, 180,25);
         mainImage.add(renewPin);
 
+        repin = new JTextField();
+        repin.setFont(new Font("Raleway", Font.BOLD, 25));
+        repin.setBounds(330, 360, 180, 25);
+        mainImage.add(repin);
+
+        change = new JButton("Change");
+        change.setBounds(355, 485, 150, 30);
+        change.addActionListener(this);
+        mainImage.add(change);
+
+        back = new JButton("Back");
+        back.setBounds(355, 520, 150, 30);
+        back.addActionListener(this);
+        mainImage.add(back);
 
         setSize(900, 900);
         setLocation(350, 0);
         setUndecorated(true);
         setVisible(true);
+
+    }
+
+    public void actionPerformed (ActionEvent ae){
 
     }
 
