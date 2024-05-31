@@ -88,6 +88,7 @@ public class Login extends JFrame implements ActionListener {
             String query = "select * from login where card_number = '"+cardNumber+"' and pin_number = '"+pinNumber+"'";
             try {
                ResultSet rs = conn.s.executeQuery(query);
+               // next if lot of data we wait till it read
                if(rs.next()){
                    setVisible(false);
                    new Transaction(pinNumber).setVisible(true);

@@ -9,8 +9,10 @@ public class PinChange extends JFrame implements ActionListener {
 
     JTextField pin, repin;
     JButton change, back;
+    String pinNumber;
 
-    PinChange(String pinchange){
+    PinChange(String pinNumber){
+        this.pinNumber = pinNumber;
         setLayout(null);
 
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/atm.jpg"));
@@ -65,8 +67,45 @@ public class PinChange extends JFrame implements ActionListener {
 
     }
 
-    public void actionPerformed (ActionEvent ae){
+    public void actionPerformed (ActionEvent ae) {
+        if (ae.getSource() == change) {
+            try {
+                String newPin = pin.getText();
+                String rePin = repin.getText();
+                if(newPin.equals("")){
+                    JOptionPane.showMessageDialog(null, "Enter new pin");
+                    return;
+                }
+                if(rePin.equals("")){
+                    JOptionPane.showMessageDialog(null, "Re Enter new pin");
+                    return;
+                }
+                if (!newPin.equals(rePin)) {
+                    JOptionPane.showMessageDialog(null, "Pin entered does not match");
+                    return;
+                }
 
+                Connection conn = new Connection();
+                String query1 = "update bank set pin_number = '"+rePin+"' where pin_number = '"+pinNumber+"'";
+                String query2 = "update login set pin_number = '"+rePin+"' where pin_number = '"+pinNumber+"'";
+                String query3 = "update signupthree set pin_number = '"+rePin+"' where pin_number = '"+pinNumber+"'";
+
+                conn.s.executeUpdate(query1);
+                conn.s.executeUpdate(query2);
+                conn.s.executeUpdate(query3);
+
+                JOptionPane.showMessageDialog(null, "Pin updated Successfully");
+
+                setVisible(false);
+                new Transaction(rePin).setVisible(true);
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage());
+            }
+        } else{
+            setVisible(false);
+            new Transaction(pinNumber).setVisible(true);
+        }
     }
 
     public static void main(String[] args) {
